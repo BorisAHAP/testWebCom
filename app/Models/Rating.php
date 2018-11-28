@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Rating extends Model
 {
     protected $table = 'ratings';
-
+    protected $primaryKey = 'id';
 
     public function getId()
     {
@@ -21,7 +21,11 @@ class Rating extends Model
 
     public function setName($name)
     {
-        return $this->name=$name;
+        return $this->name = $name;
     }
 
+    public static function getTableName()
+    {
+        return (new self())->getTable();
+    }
 }

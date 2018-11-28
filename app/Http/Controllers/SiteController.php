@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rating;
 use Illuminate\Http\Request;
 
 class SiteController extends Controller
@@ -10,6 +11,7 @@ class SiteController extends Controller
 
     public function index()
     {
-        return view('index');
+        $this->data['ratings']=Rating::all();
+        return view('index',$this->data);
     }
 }

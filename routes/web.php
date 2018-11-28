@@ -17,5 +17,5 @@
 
 Auth::routes();
 
-//Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/', 'SiteController@index')->name('home');
+Route::get('/', 'SiteController@index')->name('home');//гдавная страница
+Route::post('/addReview','ReviewController@add')->name('add_review');//добавление отзыва

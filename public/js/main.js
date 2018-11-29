@@ -8,4 +8,4 @@ $('a.showForm').on('click', function () {
     $('#hideForm').toggle('slow');
     $(this).toggle('hide');
 
-})
+});

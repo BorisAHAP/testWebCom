@@ -74,13 +74,13 @@ class Review extends Model
 
     public function upload($image)
     {
-        if (!$image) return;
         if ($this->image) {
-            Storage::delete('uploads/' . $this->image);
+            unlink($this->image);;
         }
         $filename = str_random(10) . '.' . $image->extension();
-        $image->storeAs('uploads', $filename);
-        $this->image = "uploads/" . $filename;
+        $image->storeAs('public', $filename);
+        $this->image = 'storage/' . $filename;
+
     }
 
     public static function getTableName()
@@ -91,9 +91,19 @@ class Review extends Model
     public static function getReviewUserRating()
     {
         return DB::table(self::getTableName() . ' AS r')
-            ->select('r.note As r_note', 'r.created_at AS r_date', 'u.name AS u_name', 'u.surname AS u_surname', 'r.image AS r_image')
+            ->select('r.id AS r_id','r.note As r_note', 'r.created_at AS r_date','u.id AS u_id', 'u.name AS u_name', 'u.surname AS u_surname', 'r.image AS r_image','rat.name AS rat_name')
             ->join(User::getTableName() . ' AS u', 'r.user_id', '=', 'u.id')
             ->join(Rating::getTableName() . ' AS rat', 'r.rating_id', '=', 'rat.id')
+            ->orderByDesc('r.id')
+            ->get();
+    }
+    public static function getReviewRatingFromUser($userId)
+    {
+        return DB::table(self::getTableName() . ' AS r')
+            ->select('r.note As r_note', 'r.created_at AS r_date', 'r.image AS r_image','rat.name AS rat_name')
+            ->join(Rating::getTableName() . ' AS rat', 'r.rating_id', '=', 'rat.id')
+            ->where('r.user_id',$userId)
+            ->orderByDesc('r.id')
             ->get();
     }
 }

@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Rating;
 use App\Models\Review;
+use function back;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use function unlink;
 
 
 class ReviewController extends Controller
 {
+    private $data = [];
+
     public function add(Request $request)
     {
         Review::getReviewUserRating();
@@ -41,5 +47,26 @@ class ReviewController extends Controller
             $review->save();
         }
         return redirect()->back()->with('success', 'Отзыв добавлен');
+    }
+
+    public function show()
+    {
+        $this->data['reviews'] = Review::getReviewRatingFromUser(Auth::id());
+        $this->data['user'] = Auth::user();
+        return view('myReview', $this->data);
+    }
+
+    public function edit(int $id)
+    {
+        $this->data['review']=Review::select('note','image','rating_id')->where('id',$id)->first();
+        $this->data['ratings']=Rating::all();
+       return view('edit',$this->data);
+    }
+
+    public function delete(Request $request)
+    {
+        Review::where('id', $request->id)->delete();
+        unlink($request->image);
+        return back();
     }
 }

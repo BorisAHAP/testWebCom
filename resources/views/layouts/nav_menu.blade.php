@@ -19,6 +19,9 @@
                             @endif
                         </li>
                         @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('my_review') }}">{{ __('Мои отзывы') }}</a>
+                            </li>
                             <li class="nav-item ">
                                 {{--{{ Auth::user()->name }} <span class="caret"></span>--}}
                                 <a class="nav-link" href="{{ route('logout') }}"

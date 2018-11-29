@@ -11,11 +11,12 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+
 
 Auth::routes();
 
 Route::get('/', 'SiteController@index')->name('home');//гдавная страница
 Route::post('/addReview','ReviewController@add')->name('add_review');//добавление отзыва
+Route::get('/my_review','ReviewController@show')->middleware('auth')->name('my_review');//посмотреть только свои отзывы
+Route::post('/delete','ReviewController@delete')->name('delete');//удаление отзыва
+Route::get('/edit/{id}','ReviewController@edit')->name('edit');//редактирование отзыва

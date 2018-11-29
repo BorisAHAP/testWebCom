@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ReviewExport;
-use App\Models\Review;
-use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 

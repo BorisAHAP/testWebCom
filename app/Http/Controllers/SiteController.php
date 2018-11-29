@@ -12,8 +12,9 @@ class SiteController extends Controller
 
     public function index()
     {
-        $this->data['reviews']=Review::getReviewUserRating();
-        $this->data['ratings']=Rating::all();
-        return view('index',$this->data);
+        $this->data['reviews'] = Review::getReviewUserRating();
+        $this->data['ratings'] = Rating::all();
+        return view('index', $this->data);
     }
+
 }

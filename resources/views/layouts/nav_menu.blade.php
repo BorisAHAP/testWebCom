@@ -35,6 +35,11 @@
                                 </form>
                             </li>
                             @endguest
+                        @if(Auth::check() && Auth::user()->isAdmin)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('all_review') }}">Получить все отзывы</a>
+                                </li>
+                        @endif
 
                 </ul>
             </div>

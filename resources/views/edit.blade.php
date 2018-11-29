@@ -3,7 +3,7 @@
     <h1>Привет,  {{Auth::user()->name}}</h1>
 
     <div class="col-lg-8" id="hideForm" >
-        <form class="card" method="post" action="{{route('add_review')}}" enctype="multipart/form-data">
+        <form class="card" method="post" action="{{route('update',$review)}}" enctype="multipart/form-data">
             @csrf
             <input type="text" value="{{Auth::id()}}" hidden name="user_id">
             <div class="card-body">
@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group mb-0">
-                            <img class="card-img-top" src="{{$review->getImage()}}" width="180px" height="180px">
+                            <img class="card-img-top" src="{{asset($review->getImage())}}" width="180px" height="180px">
 
                             <label class="form-label">Изображение</label>
                             <input name="image" type="file"

@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Requests\ChangeRequest;
 use App\Models\Rating;
 use App\Models\Review;
-use function back;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use function unlink;
 
 
 class ReviewController extends Controller
 {
     private $data = [];
 
+//добавление отзыва
     public function add(Request $request)
     {
         Review::getReviewUserRating();
@@ -42,13 +42,14 @@ class ReviewController extends Controller
 
             $review->fill($request->except(['_token', 'image']));
             if ($request->hasFile('image')) {
-                $review->upload($request->file('image'));
+                $review->uploadImg($request->file('image'));
             }
             $review->save();
         }
         return redirect()->back()->with('success', 'Отзыв добавлен');
     }
 
+//показать все личные отзывы
     public function show()
     {
         $this->data['reviews'] = Review::getReviewRatingFromUser(Auth::id());
@@ -56,17 +57,35 @@ class ReviewController extends Controller
         return view('myReview', $this->data);
     }
 
+//страница редактирования отзыва
     public function edit(int $id)
     {
-        $this->data['review']=Review::select('note','image','rating_id')->where('id',$id)->first();
-        $this->data['ratings']=Rating::all();
-       return view('edit',$this->data);
+        $this->data['review'] = Review::select('id', 'note', 'image', 'rating_id')->where('id', $id)->first();
+        $this->data['ratings'] = Rating::all();
+        return view('edit', $this->data);
     }
 
+//удаление отзыва
     public function delete(Request $request)
     {
         Review::where('id', $request->id)->delete();
         unlink($request->image);
         return back();
+    }
+
+//сохранение измененного отзыва
+    public function update(ChangeRequest $request, Review $review)
+    {
+        if ($request->post()) {
+            $imageOld = $review->getImage();
+            $review->fill($request->except(['_token', 'image']));
+            if ($request->hasFile('image')) {
+                $review->uploadImg($request->file('image'));
+            } else {
+                $review->setImage($imageOld);
+            }
+            $review->save();
+        }
+        return redirect()->route('home');
     }
 }

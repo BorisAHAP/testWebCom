@@ -70,7 +70,7 @@
                 <div class="col-md-4">
 
                     <div class="card">
-                        <img class="card-img-top" src="{{$review->r_image}}" width="180px" height="180px">
+                        <img class="card-img-top" src="{{asset($review->r_image)}}" width="180px" height="180px">
 
                         <div class="card-body d-flex flex-column">
                             <div class="card-options">

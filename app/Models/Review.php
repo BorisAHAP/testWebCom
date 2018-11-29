@@ -72,10 +72,10 @@ class Review extends Model
         return $this->user_id = $userId;
     }
 
-    public function upload($image)
+    public function uploadImg($image)
     {
         if ($this->image) {
-            unlink($this->image);;
+            unlink($this->image);
         }
         $filename = str_random(10) . '.' . $image->extension();
         $image->storeAs('public', $filename);
@@ -100,9 +100,19 @@ class Review extends Model
     public static function getReviewRatingFromUser($userId)
     {
         return DB::table(self::getTableName() . ' AS r')
-            ->select('r.note As r_note', 'r.created_at AS r_date', 'r.image AS r_image','rat.name AS rat_name')
+            ->select('r.id AS r_id','r.note As r_note', 'r.created_at AS r_date', 'r.image AS r_image','rat.name AS rat_name')
             ->join(Rating::getTableName() . ' AS rat', 'r.rating_id', '=', 'rat.id')
             ->where('r.user_id',$userId)
+            ->orderByDesc('r.id')
+            ->get();
+    }
+
+    public static function dataToExcel()
+    {
+        return DB::table(self::getTableName() . ' AS r')
+            ->select('r.id AS r_id', 'u.name AS u_name', 'u.surname AS u_surname','r.note As r_note', 'r.image AS r_image','rat.name AS rat_name', 'r.created_at AS r_date')
+            ->join(User::getTableName() . ' AS u', 'r.user_id', '=', 'u.id')
+            ->join(Rating::getTableName() . ' AS rat', 'r.rating_id', '=', 'rat.id')
             ->orderByDesc('r.id')
             ->get();
     }

@@ -11,7 +11,18 @@
                         <img class="card-img-top" src="{{$review->r_image}}" width="180px" height="180px">
 
                         <div class="card-body d-flex flex-column">
-                            <div class="col-md-9">
+                            <div class="card-options">
+
+                                    <a href="{{route('edit',$review->r_id)}}" class="card-options-collapse" data-toggle="card-collapse"><i class="far fa-edit"></i></a>
+                                    <form action="{{route('delete')}}" method="post">
+                                        @csrf
+                                        <input type="text" value="{{$review->r_id}}" name="id" hidden>
+                                        <input type="text" value="{{$review->r_image}}" name="image" hidden>
+                                        <button type="submit" style="background-color: Transparent;background-repeat:no-repeat;border: none;cursor:pointer;overflow: hidden;outline:none;"><i class="fas fa-trash"></i></button>
+                                    </form>
+
+
+                            </div>
                                 <div class="text-muted">{{$review->r_note}}
                                 </div>
                                 <div class="d-flex align-items-center pt-5 mt-auto">
@@ -21,11 +32,7 @@
                                         <small class="d-block text-muted">{{$review->r_date}}</small>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                               <i class="far fa-edit"></i>
-                                <i class="fas fa-trash"></i>
-                            </div>
+
                         </div>
                     </div>
                 </div>

@@ -14,6 +14,7 @@
 - в терминале composer update
 - в терминале php artisan key:generate
 - дамп базы в database/testWebCom.sql
+- учетные данные для АДМИНА admin@site.by 111111
 
 
 Laravel is accessible, yet powerful, providing tools needed for large, robust applications.

@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group mb-0">
-                            <img class="card-img-top" src="{{asset($review->getImage())}}" width="180px" height="180px">
+                            <img class="card-img-top" src="{{asset('storage/'.$review->getImage())}}" width="180px" height="180px">
 
                             <label class="form-label">Изображение</label>
                             <input name="image" type="file"

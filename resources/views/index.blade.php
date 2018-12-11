@@ -6,7 +6,7 @@
         <a href="{{Auth::check() ? 'javascript:;' : route('login')  }}" class="btn btn-sm btn-outline-primary showForm">Добавить
             отзыв</a>
     </div>
-    <div class="col-lg-8" id="hideForm" @if(session()->has('code')) style="display: block"
+      <div class="col-lg-8" id="hideForm" @if(session()->has('code')) style="display: block"
          @else style="display: none" @endif>
         <form class="card" method="post" action="{{route('add_review')}}" enctype="multipart/form-data">
             @csrf
@@ -70,7 +70,7 @@
                 <div class="col-md-4">
 
                     <div class="card">
-                        <img class="card-img-top" src="{{asset($review->r_image)}}" width="180px" height="180px">
+                        <img class="card-img-top" src="{{asset('storage/'.$review->r_image)}}" width="180px" height="180px">
 
                         <div class="card-body d-flex flex-column">
                             <div class="card-options">

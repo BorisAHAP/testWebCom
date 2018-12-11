@@ -75,11 +75,12 @@ class Review extends Model
     public function uploadImg($image)
     {
         if ($this->image) {
-            unlink($this->image);
+            unlink('storage/'.$this->image);
         }
-        $filename = str_random(10) . '.' . $image->extension();
-        $image->storeAs('public', $filename);
-        $this->image = 'storage/' . $filename;
+//        $filename = str_random(10) . '.' . $image->extension();
+//        $image->storeAs('public', $filename);
+        $path=$image->store('uploads','public');
+        $this->image=$path;
 
     }
 

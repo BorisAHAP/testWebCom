@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 
+
 class ReviewController extends Controller
 {
     private $data = [];
@@ -60,16 +61,22 @@ class ReviewController extends Controller
 //страница редактирования отзыва
     public function edit(int $id)
     {
-        $this->data['review'] = Review::select('id', 'note', 'image', 'rating_id')->where('id', $id)->first();
-        $this->data['ratings'] = Rating::all();
-        return view('edit', $this->data);
+        $this->data['review'] = Review::select('id', 'user_id','note', 'image', 'rating_id')->where('id', $id)->first();
+//        dd($this->data['review']->getUserId());
+        if (Auth::id()===$this->data['review']->getUserId()){
+            $this->data['ratings'] = Rating::all();
+            return view('edit', $this->data);
+        }else{
+            return redirect(404);
+        }
+
     }
 
 //удаление отзыва
     public function delete(Request $request)
     {
         Review::where('id', $request->id)->delete();
-        unlink($request->image);
+        unlink('storage/'.$request->image);
         return back();
     }
 
